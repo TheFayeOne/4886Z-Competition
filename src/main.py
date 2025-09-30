@@ -1,0 +1,50 @@
+# ---------------------------------------------------------------------------- #
+#                                                                              #
+# 	Module:       main.py                                                      #
+# 	Author:       admin                                                        #
+# 	Created:      9/12/2025, 3:18:54 PM                                        #
+# 	Description:  V5 project                                                   #
+#                                                                              #
+# ---------------------------------------------------------------------------- #
+
+# Library imports
+from vex import *
+
+speed = 0
+turn = 0
+brain = Brain()
+controller = Controller(PRIMARY)
+rearleftmotor = Motor(Ports.PORT1, GearSetting.RATIO_18_1, False)
+rearrightmotor = Motor(Ports.PORT3, GearSetting.RATIO_18_1, True)
+frontleftmotor = Motor(Ports.PORT4, GearSetting.RATIO_18_1, False)
+frontrightmotor = Motor(Ports.PORT6, GearSetting.RATIO_18_1, True)
+motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
+motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
+drivetrain = DriveTrain(motorgroupleft, motorgroupright)
+
+
+def autonomous():
+    brain.screen.clear_screen()
+    brain.screen.print("autonomous code")
+    drivetrain.drive_for(FORWARD, 100, MM)
+    # place automonous code here
+
+def user_control():
+    brain.screen.clear_screen()
+    brain.screen.print("driver control")
+    drivetrain.set_drive_velocity(0, PERCENT)
+    # place driver control in this while loop
+    while True:
+        motorgroupleft.spin(FORWARD)
+        motorgroupright.spin(FORWARD)
+        speed = controller.axis3.position()
+        turn = controller.axis1.position()         
+        motorgroupleft.set_velocity(speed + turn, PERCENT)
+        motorgroupright.set_velocity(speed - turn, PERCENT)
+        wait(20, MSEC)
+
+# create competition instance
+comp = Competition(user_control, autonomous)
+
+# actions to do when the program starts
+brain.screen.clear_screen()
