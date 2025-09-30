@@ -25,13 +25,13 @@ drivetrain = DriveTrain(motorgroupleft, motorgroupright)
 
 def autonomous():
     brain.screen.clear_screen()
-    brain.screen.print("autonomous code")
+    brain.screen.print("Autonomous Code")
     drivetrain.drive_for(FORWARD, 100, MM)
     # place automonous code here
 
 def user_control():
     brain.screen.clear_screen()
-    brain.screen.print("driver control")
+    brain.screen.print("Driver Control")
     drivetrain.set_drive_velocity(0, PERCENT)
     # place driver control in this while loop
     while True:
