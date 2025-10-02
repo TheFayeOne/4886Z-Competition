@@ -26,6 +26,7 @@ drivetrain = DriveTrain(motorgroupleft, motorgroupright)
 def autonomous():
     brain.screen.clear_screen()
     brain.screen.print("Autonomous Code")
+    drivetrain.set_drive_velocity(50, PERCENT)
     drivetrain.drive_for(FORWARD, 100, MM)
     # place automonous code here
 
