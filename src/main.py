@@ -50,5 +50,3 @@ comp = Competition(user_control, autonomous)
 brain.screen.clear_screen()
 speed = 0
 turn = 0
-
-#if you are reading this in git this works
