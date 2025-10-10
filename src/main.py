@@ -3,7 +3,7 @@
 # 	Module:       main.py                                                      #
 # 	Author:       admin                                                        #
 # 	Created:      9/12/2025, 3:18:54 PM                                        #
-# 	Description:  Vex V5 Project                                                   #
+# 	Description:  Vex V5 Project                                               #
 #                                                                              #
 # ---------------------------------------------------------------------------- #
 
@@ -20,12 +20,16 @@ frontrightmotor = Motor(Ports.PORT11, GearSetting.RATIO_18_1, True)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
+reverse = 0
 
 def reverse_drive():
-    if reverse = 0:
+    global reverse
+    if reverse == 0:
         reverse = 1
-    if reverse = 1:
+        print("reverse")
+    else:
         reverse = 0
+        print("forward")
 
 
 def autonomous():
@@ -46,11 +50,10 @@ def user_control():
         motorgroupright.spin(FORWARD)
         speed = controller.axis3.position()
         turn = controller.axis1.position() 
-        if reverse = 0:
-            motorgroupleft.set_velocity(speed + turn, PERCENT)
-            motorgroupright.set_velocity(speed - turn, PERCENT)
-
-        if reverse = 1: 
+        if reverse == 0:
+            motorgroupleft.set_velocity(-speed + turn, PERCENT)
+            motorgroupright.set_velocity(-speed - turn, PERCENT)
+        else:
             motorgroupleft.set_velocity(speed - turn, PERCENT)
             motorgroupright.set_velocity(speed + turn, PERCENT)
 
@@ -63,4 +66,3 @@ comp = Competition(user_control, autonomous)
 brain.screen.clear_screen()
 speed = 0
 turn = 0
-reverse = 0
