@@ -20,6 +20,8 @@ frontrightmotor = Motor(Ports.PORT11, GearSetting.RATIO_18_1, True)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
+speed = 0
+turn = 0
 reverse = 0
 
 def reverse_drive():
@@ -27,17 +29,16 @@ def reverse_drive():
     if reverse == 0:
         reverse = 1
         print("reverse")
-    else:
+    if reverse == 1:
         reverse = 0
         print("forward")
-
 
 def autonomous():
     brain.screen.clear_screen()
     brain.screen.print("Autonomous Code")
+    # place automonous code here
     drivetrain.set_drive_velocity(50, PERCENT)
     drivetrain.drive_for(FORWARD, 500, MM)
-    # place automonous code here
 
 def user_control():
     brain.screen.clear_screen()
@@ -53,7 +54,7 @@ def user_control():
         if reverse == 0:
             motorgroupleft.set_velocity(-speed + turn, PERCENT)
             motorgroupright.set_velocity(-speed - turn, PERCENT)
-        else:
+        if reverse == 1:
             motorgroupleft.set_velocity(speed - turn, PERCENT)
             motorgroupright.set_velocity(speed + turn, PERCENT)
 
@@ -64,5 +65,3 @@ comp = Competition(user_control, autonomous)
 
 # actions to do when the program starts
 brain.screen.clear_screen()
-speed = 0
-turn = 0
