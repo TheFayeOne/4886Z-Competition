@@ -36,10 +36,13 @@ def reverse_drive():
         print("forward")
 
 def arm_backward():
-    armmotor.spin(BACKWARD, 100, PERCENT)
+    armmotor.spin(FORWARD, 100, PERCENT)
 
 def arm_forward():
-    armmotor.spin(FORWARD, 100, PERCENT)
+    armmotor.spin(REVERSE, 100, PERCENT)
+
+def arm_stop():
+    armmotor.stop()
 
 def autonomous():
     brain.screen.clear_screen()
@@ -52,22 +55,23 @@ def user_control():
     brain.screen.clear_screen()
     brain.screen.print("User Control")
     drivetrain.set_drive_velocity(0, PERCENT)
+    controller.buttonL1.pressed(arm_backward)
+    controller.buttonL1.released(arm_stop)
+    controller.buttonR1.pressed(arm_forward)
+    controller.buttonR1.released(arm_stop)
     controller.buttonY.pressed(reverse_drive)
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
         motorgroupright.spin(FORWARD)
-        speed = controller.axis3.position()
-        turn = controller.axis1.position() 
+        drivespeed = controller.axis3.position()
+        turn = controller.axis1.position()
         if reverse == 0:
-            motorgroupleft.set_velocity(-speed + turn, PERCENT)
-            motorgroupright.set_velocity(-speed - turn, PERCENT)
+            motorgroupleft.set_velocity(-drivespeed + turn, PERCENT)
+            motorgroupright.set_velocity(-drivespeed - turn, PERCENT)
         if reverse == 1:
-            motorgroupleft.set_velocity(speed - turn, PERCENT)
-            motorgroupright.set_velocity(speed + turn, PERCENT)
-
-        controller.buttonL1.pressing(arm_backward)
-        controller.buttonR1.pressing(arm_forward)
+            motorgroupleft.set_velocity(drivespeed - turn, PERCENT)
+            motorgroupright.set_velocity(drivespeed + turn, PERCENT)
 
         wait(20, MSEC)
 
