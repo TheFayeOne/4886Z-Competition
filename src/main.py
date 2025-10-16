@@ -67,11 +67,11 @@ def user_control():
         drivespeed = controller.axis3.position()
         turn = controller.axis1.position()
         if reverse == 0:
-            motorgroupleft.set_velocity(-drivespeed + turn, PERCENT)
-            motorgroupright.set_velocity(-drivespeed - turn, PERCENT)
+            motorgroupleft.set_velocity(drivespeed + turn, PERCENT)
+            motorgroupright.set_velocity(drivespeed - turn, PERCENT)
         if reverse == 1:
-            motorgroupleft.set_velocity(drivespeed - turn, PERCENT)
-            motorgroupright.set_velocity(drivespeed + turn, PERCENT)
+            motorgroupleft.set_velocity(-drivespeed - turn, PERCENT)
+            motorgroupright.set_velocity(-drivespeed + turn, PERCENT)
 
         wait(20, MSEC)
 
