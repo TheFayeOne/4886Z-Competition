@@ -17,9 +17,11 @@ rearleftmotor = Motor(Ports.PORT1, GearSetting.RATIO_18_1, False)
 rearrightmotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
 frontleftmotor = Motor(Ports.PORT11, GearSetting.RATIO_18_1, False)
 frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_18_1, True)
-armmotor = Motor(Ports.PORT3, GearSetting.RATIO_18_1, False)
+armmotortop = Motor(Ports.PORT3, GearSetting.RATIO_18_1, False)
+armmotorbottom = Motor(Ports.PORT9, GearSetting.RATIO_18_1, False)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
+motorgrouparm = MotorGroup(armmotortop, armmotorbottom)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
 drivespeed = 0
 armspeed = 0
@@ -36,20 +38,20 @@ def reverse_drive():
         print("forward")
 
 def arm_backward():
-    armmotor.spin(FORWARD, 100, PERCENT)
+    motorgrouparm.spin(FORWARD, 100, PERCENT)
 
 def arm_forward():
-    armmotor.spin(REVERSE, 100, PERCENT)
+    motorgrouparm.spin(REVERSE, 100, PERCENT)
 
 def arm_stop():
-    armmotor.stop()
+    motorgrouparm.stop()
 
 def autonomous():
     brain.screen.clear_screen()
     brain.screen.print("Autonomous Code")
     # place automonous code here
     drivetrain.set_drive_velocity(50, PERCENT)
-    drivetrain.drive_for(FORWARD, 500, MM)
+    drivetrain.drive_for(FORWARD, 430, MM)
 
 def user_control():
     brain.screen.clear_screen()
@@ -70,8 +72,8 @@ def user_control():
             motorgroupleft.set_velocity(drivespeed + turn, PERCENT)
             motorgroupright.set_velocity(drivespeed - turn, PERCENT)
         if reverse == 1:
-            motorgroupleft.set_velocity(-drivespeed - turn, PERCENT)
-            motorgroupright.set_velocity(-drivespeed + turn, PERCENT)
+            motorgroupleft.set_velocity(-drivespeed + turn, PERCENT)
+            motorgroupright.set_velocity(-drivespeed - turn, PERCENT)
 
         wait(20, MSEC)
 
