@@ -19,6 +19,7 @@ frontleftmotor = Motor(Ports.PORT11, GearSetting.RATIO_18_1, False)
 frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_18_1, True)
 armmotortop = Motor(Ports.PORT3, GearSetting.RATIO_18_1, False)
 armmotorbottom = Motor(Ports.PORT9, GearSetting.RATIO_18_1, False)
+blockermotor = Motor(Ports.PORT0, GearSetting.RATIO_18_1, False)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 motorgrouparm = MotorGroup(armmotortop, armmotorbottom)
@@ -27,6 +28,7 @@ drivespeed = 0
 armspeed = 0
 turn = 0
 reverse = 0
+blocking = 1
 
 def reverse_drive():
     global reverse
@@ -36,6 +38,15 @@ def reverse_drive():
     else:
         reverse = 0
         print("forward")
+
+def arm_blocking():
+    global blocking
+    if blocking == 0:
+        blocking = 1
+        print("blocking activated")
+    else:
+        blocking = 0
+        print("blocking deactivated")
 
 def arm_backward():
     motorgrouparm.spin(FORWARD, 100, PERCENT)
@@ -51,7 +62,7 @@ def autonomous():
     brain.screen.print("Autonomous Code")
     # place automonous code here
     drivetrain.set_drive_velocity(50, PERCENT)
-    drivetrain.drive_for(FORWARD, 430, MM)
+    drivetrain.drive_for(FORWARD, 440, MM)
 
 def user_control():
     brain.screen.clear_screen()
