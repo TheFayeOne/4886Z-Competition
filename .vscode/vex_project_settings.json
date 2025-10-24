@@ -5,7 +5,7 @@
 	},
 	"project": {
 		"name": "4886Z Competition",
-		"description": "4886Z - Zig-Zag",
+		"description": "The code that team 4886Z - Zig-Zag uses for competitions and general use.",
 		"creationDate": "9/12/2025, 3:18:54 PM",
 		"platform": "V5",
 		"language": "python",
