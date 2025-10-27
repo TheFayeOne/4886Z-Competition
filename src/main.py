@@ -25,7 +25,6 @@ motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 motorgrouparm = MotorGroup(armmotortop, armmotorbottom)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
 drivespeed = 0
-armspeed = 0
 turn = 0
 reverse = 0
 blocking = 1
