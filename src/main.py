@@ -24,6 +24,8 @@ motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 motorgrouparm = MotorGroup(armmotortop, armmotorbottom)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
+motorgrouparm.set_velocity(100, PERCENT)
+blockermotor.set_velocity(100, PERCENT)
 drivespeed = 0
 turn = 0
 reverse = 0
@@ -42,16 +44,23 @@ def arm_blocking():
     global blocking
     if blocking == 0:
         blocking = 1
+        blockermotor.spin(REVERSE)
+        wait(0.85, SECONDS)
+        blockermotor.stop()
         print("blocking activated")
+
     else:
         blocking = 0
+        blockermotor.spin(FORWARD)
+        wait(0.85, SECONDS)
+        blockermotor.stop()
         print("blocking deactivated")
 
 def arm_backward():
-    motorgrouparm.spin(FORWARD, 100, PERCENT)
+    motorgrouparm.spin(FORWARD)
 
 def arm_forward():
-    motorgrouparm.spin(REVERSE, 100, PERCENT)
+    motorgrouparm.spin(REVERSE)
 
 def arm_stop():
     motorgrouparm.stop()
@@ -72,6 +81,7 @@ def user_control():
     controller.buttonR1.pressed(arm_forward)
     controller.buttonR1.released(arm_stop)
     controller.buttonY.pressed(reverse_drive)
+    controller.buttonX.pressed(arm_blocking)
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
