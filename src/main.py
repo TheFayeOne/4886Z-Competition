@@ -17,9 +17,10 @@ rearleftmotor = Motor(Ports.PORT1, GearSetting.RATIO_18_1, False)
 rearrightmotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
 frontleftmotor = Motor(Ports.PORT11, GearSetting.RATIO_18_1, False)
 frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_18_1, True)
-armmotortop = Motor(Ports.PORT3, GearSetting.RATIO_18_1, False)
-armmotorbottom = Motor(Ports.PORT9, GearSetting.RATIO_18_1, False)
-blockermotor = Motor(Ports.PORT4, GearSetting.RATIO_18_1, False)
+armmotortop = Motor(Ports.PORT3, GearSetting.RATIO_18_1, True)
+armmotorbottom = Motor(Ports.PORT9, GearSetting.RATIO_18_1, True)
+blockermotor = Motor(Ports.PORT4, GearSetting.RATIO_18_1, True)
+guidemotor = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 motorgrouparm = MotorGroup(armmotortop, armmotorbottom)
@@ -29,6 +30,7 @@ blockermotor.set_velocity(100, PERCENT)
 drivespeed = 0
 turn = 0
 reverse = 0
+guide = 0
 blocking = 1
 
 def reverse_drive():
@@ -44,23 +46,39 @@ def arm_blocking():
     global blocking
     if blocking == 0:
         blocking = 1
-        blockermotor.spin(REVERSE)
+        blockermotor.spin(FORWARD)
         wait(0.85, SECONDS)
         blockermotor.stop()
         print("blocking activated")
 
     else:
         blocking = 0
-        blockermotor.spin(FORWARD)
+        blockermotor.spin(REVERSE)
         wait(0.85, SECONDS)
         blockermotor.stop()
         print("blocking deactivated")
 
+def guide_toggle():
+    global guide
+    if guide == 0:
+        guide = 1
+        guidemotor.spin(REVERSE)
+        wait(0.9, SECONDS)
+        guidemotor.stop()
+        print("guide activated")
+
+    else:
+        guide = 0
+        guidemotor.spin(FORWARD)
+        wait(0.9, SECONDS)
+        guidemotor.stop()
+        print("guide deactivated")
+
 def arm_backward():
-    motorgrouparm.spin(FORWARD)
+    motorgrouparm.spin(REVERSE)
 
 def arm_forward():
-    motorgrouparm.spin(REVERSE)
+    motorgrouparm.spin(FORWARD)
 
 def arm_stop():
     motorgrouparm.stop()
@@ -82,6 +100,7 @@ def user_control():
     controller.buttonR1.released(arm_stop)
     controller.buttonY.pressed(reverse_drive)
     controller.buttonX.pressed(arm_blocking)
+    controller.buttonB.pressed(guide_toggle)
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
