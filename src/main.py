@@ -63,7 +63,7 @@ def guide_toggle():
     if guide == 0:
         guide = 1
         guidemotor.spin(REVERSE)
-        wait(0.9, SECONDS)
+        wait(0.8, SECONDS)
         guidemotor.stop()
         print("guide activated")
 
