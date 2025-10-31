@@ -99,7 +99,7 @@ def user_control():
     controller.buttonR1.pressed(arm_forward)
     controller.buttonR1.released(arm_stop)
     controller.buttonY.pressed(reverse_drive)
-    controller.buttonX.pressed(arm_blocking)
+    controller.buttonB.pressed(arm_blocking)
     controller.buttonB.pressed(guide_toggle)
     # place driver control in this while loop
     while True:
