@@ -88,7 +88,7 @@ def autonomous():
     brain.screen.print("Autonomous Code")
     # place automonous code here
     drivetrain.set_drive_velocity(50, PERCENT)
-    drivetrain.drive_for(FORWARD, 100, MM)
+    drivetrain.drive_for(FORWARD, 500, MM)
 
 def user_control():
     brain.screen.clear_screen()
