@@ -17,13 +17,11 @@ rearleftmotor = Motor(Ports.PORT1, GearSetting.RATIO_18_1, False)
 rearrightmotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
 frontleftmotor = Motor(Ports.PORT11, GearSetting.RATIO_18_1, False)
 frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_18_1, True)
-armmotortop = Motor(Ports.PORT3, GearSetting.RATIO_18_1, True)
-armmotorbottom = Motor(Ports.PORT9, GearSetting.RATIO_18_1, True)
+armmotor = Motor(Ports.PORT3, GearSetting.RATIO_18_1, True)
 blockermotor = Motor(Ports.PORT4, GearSetting.RATIO_18_1, True)
 guidemotor = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
-motorgrouparm = MotorGroup(armmotortop, armmotorbottom)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
 motorgrouparm.set_velocity(100, PERCENT)
 blockermotor.set_velocity(100, PERCENT)
@@ -75,13 +73,13 @@ def guide_toggle():
         print("guide deactivated")
 
 def arm_backward():
-    motorgrouparm.spin(REVERSE)
+    armmotor.spin(REVERSE)
 
 def arm_forward():
-    motorgrouparm.spin(FORWARD)
+    armmotor.spin(FORWARD)
 
 def arm_stop():
-    motorgrouparm.stop()
+    armmotor.stop()
 
 def autonomous():
     brain.screen.clear_screen()
