@@ -101,6 +101,7 @@ def pre_auton():
     brain.screen.print("Pre-Autonomous")
     brain.screen.pressed(autonomous_switcher)
     brain.screen.pressed(auton_print)
+
 def autonomous():
     global auton
     brain.screen.clear_screen()
