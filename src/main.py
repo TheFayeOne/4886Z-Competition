@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------- #
 #                                                                              #
 # 	Module:       main.py                                                      #
-# 	Author:       admin                                                        #
+# 	Author:       Kelvin Morse                                                 #
 # 	Created:      9/12/2025, 3:18:54 PM                                        #
 # 	Description:  Vex V5 Project                                               #
 #                                                                              #
@@ -17,20 +17,20 @@ rearleftmotor = Motor(Ports.PORT4, GearSetting.RATIO_18_1, False)
 rearrightmotor = Motor(Ports.PORT1, GearSetting.RATIO_18_1, True)
 frontleftmotor = Motor(Ports.PORT9, GearSetting.RATIO_18_1, False)
 frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_18_1, True)
-armmotor = Motor(Ports.PORT8, GearSetting.RATIO_18_1, True)
-#blockermotor = Motor(Ports.PORT20, GearSetting.RATIO_18_1, True)
+armmotor = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
+outakemotor = Motor(Ports.PORT6, GearSetting.RATIO_18_1, True)
 guidemotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, False)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
 armmotor.set_velocity(100, PERCENT)
-#blockermotor.set_velocity(100, PERCENT)
+outakemotor.set_velocity(100, PERCENT)
 drivespeed = 0
 turn = 0
 reverse = 0
 guide = 0
 auton = 0
-blocking = 1
+outake = 0
 
 def reverse_drive():
     global reverse
@@ -41,21 +41,16 @@ def reverse_drive():
         reverse = 0
         print("forward")
 
-'''def arm_blocking():
-    global blocking
-    if blocking == 0:
-        blocking = 1
-        blockermotor.spin(FORWARD)
-        wait(0.85, SECONDS)
-        blockermotor.stop()
-        print("blocking activated")
-
+def outake():
+    global outake
+    if outake == 0:
+        outake = 1
+        print("outaking")
+        outakemotor.spin(FORWARD)
     else:
-        blocking = 0
-        blockermotor.spin(REVERSE)
-        wait(0.85, SECONDS)
-        blockermotor.stop()
-        print("blocking deactivated")'''
+        outake = 0
+        print("not outaking")
+        outakemotor.stop()
 
 def guide_toggle():
     global guide
@@ -85,10 +80,15 @@ def auton_print():
     if auton == 1:
         brain.screen.print_at("2", x=100, y=50)
 
+def autonomous_switcher():
+    global auton
+    auton = auton + 1
+    if auton > 1:
+        auton = 0
+
 def arm_stop():
     armmotor.stop()
 
-def autonomous_switcher():
     global auton
     auton = auton + 1
     if auton > 1:
@@ -122,7 +122,7 @@ def user_control():
     controller.buttonR1.pressed(arm_forward)
     controller.buttonR1.released(arm_stop)
     controller.buttonY.pressed(reverse_drive)
-    #controller.buttonB.pressed(arm_blocking)
+    controller.buttonA.pressed(outake)
     controller.buttonB.pressed(guide_toggle)
     # place driver control in this while loop
     while True:
@@ -136,7 +136,6 @@ def user_control():
         if reverse == 1:
             motorgroupleft.set_velocity(-drivespeed + turn, PERCENT)
             motorgroupright.set_velocity(-drivespeed - turn, PERCENT)
-
         wait(20, MSEC)
 
 # create competition instance
