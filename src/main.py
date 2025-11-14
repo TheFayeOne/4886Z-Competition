@@ -58,6 +58,7 @@ def stopper():
     global stopper
     if stopper == 0:
         stopper = 1
+        print("stopper opened")
         stoppermotor.spin(REVERSE)
         wait(0.4, SECONDS)
         stoppermotor.stop()
@@ -65,10 +66,10 @@ def stopper():
 
     else:
         stopper = 0
+        print("stopper opened")
         stoppermotor.spin(FORWARD)
         wait(0.4, SECONDS)
         stoppermotor.stop()
-        print("stopper opened")
 
 def guide_toggle():
     global guide
@@ -140,9 +141,10 @@ def user_control():
     controller.buttonR1.pressed(arm_forward)
     controller.buttonR1.released(arm_stop)
     controller.buttonY.pressed(reverse_drive)
-    controller.buttonA.pressed(outake)
-    controller.buttonB.pressed(guide_toggle)
+    controller.buttonX.pressed(outake)
+    controller.buttonX.pressed(guide_toggle)
     controller.buttonX.pressed(stopper)
+    outake()
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
