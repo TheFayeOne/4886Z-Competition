@@ -43,6 +43,9 @@ def reverse_drive():
         reverse = 0
         print("forward")
 
+def outake_stop():
+    outakemotor.stop()
+
 def outake():
     global outake
     if outake == 0:
@@ -52,7 +55,7 @@ def outake():
     else:
         outake = 0
         print("not outaking")
-        outakemotor.stop()
+        outakemotor.spin(REVERSE, 30, PERCENT)
 
 def stopper():
     global stopper
@@ -144,6 +147,7 @@ def user_control():
     controller.buttonX.pressed(outake)
     controller.buttonX.pressed(guide_toggle)
     controller.buttonX.pressed(stopper)
+    controller.buttonA.pressed(outake_stop)
     outake()
     # place driver control in this while loop
     while True:
