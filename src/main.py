@@ -20,6 +20,7 @@ frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_18_1, True)
 armmotor = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
 outakemotor = Motor(Ports.PORT6, GearSetting.RATIO_18_1, True)
 guidemotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, False)
+stoppermotor = Motor(Ports.PORT7, GearSetting.RATIO_18_1, True)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
@@ -31,6 +32,7 @@ reverse = 0
 guide = 0
 auton = 0
 outake = 0
+stopper = 1
 
 def reverse_drive():
     global reverse
@@ -51,6 +53,22 @@ def outake():
         outake = 0
         print("not outaking")
         outakemotor.stop()
+
+def stopper():
+    global stopper
+    if stopper == 0:
+        stopper = 1
+        stoppermotor.spin(REVERSE)
+        wait(0.4, SECONDS)
+        stoppermotor.stop()
+        print("stopper closed")
+
+    else:
+        stopper = 0
+        stoppermotor.spin(FORWARD)
+        wait(0.4, SECONDS)
+        stoppermotor.stop()
+        print("stopper opened")
 
 def guide_toggle():
     global guide
@@ -124,6 +142,7 @@ def user_control():
     controller.buttonY.pressed(reverse_drive)
     controller.buttonA.pressed(outake)
     controller.buttonB.pressed(guide_toggle)
+    controller.buttonX.pressed(stopper)
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
