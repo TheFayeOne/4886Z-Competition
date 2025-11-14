@@ -52,7 +52,7 @@ def outake():
     else:
         outake = 0
         print("not outaking")
-        outakemotor.stop()
+        outakemotor.spin(REVERSE, 30, PERCENT)
 
 def stopper():
     global stopper
