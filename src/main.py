@@ -17,14 +17,17 @@ rearleftmotor = Motor(Ports.PORT4, GearSetting.RATIO_18_1, False)
 rearrightmotor = Motor(Ports.PORT1, GearSetting.RATIO_18_1, True)
 frontleftmotor = Motor(Ports.PORT9, GearSetting.RATIO_18_1, False)
 frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_18_1, True)
-armmotor = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
+armmotortop = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
+armmotorbottom = Motor(Ports.PORT3, GearSetting.RATIO_18_1, True)
+motorgrouparm = MotorGroup(armmotortop, armmotorbottom)
 outakemotor = Motor(Ports.PORT6, GearSetting.RATIO_18_1, True)
 guidemotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, False)
 stoppermotor = Motor(Ports.PORT7, GearSetting.RATIO_18_1, True)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
-armmotor.set_velocity(100, PERCENT)
+armmotortop.set_velocity(100, PERCENT)
+armmotorbottom.set_velocity(100, PERCENT)
 outakemotor.set_velocity(100, PERCENT)
 drivespeed = 0
 turn = 0
@@ -54,22 +57,17 @@ def outake():
         print("not outaking")
         outakemotor.stop()
 
-def stopper():
-    global stopper
-    if stopper == 0:
-        stopper = 1
-        print("stopper opened")
-        stoppermotor.spin(REVERSE)
-        wait(0.4, SECONDS)
-        stoppermotor.stop()
-        print("stopper closed")
+def stopper_open():
+    print("stopper opened")
+    stoppermotor.spin(FORWARD)
+    wait(0.4, SECONDS)
+    stoppermotor.stop()
 
-    else:
-        stopper = 0
-        print("stopper opened")
-        stoppermotor.spin(FORWARD)
-        wait(0.4, SECONDS)
-        stoppermotor.stop()
+def stopper_close():
+   print("stopper closed")
+   stoppermotor.spin(REVERSE)
+   wait(0.4, SECONDS)
+   stoppermotor.stop() 
 
 def guide_toggle():
     global guide
@@ -88,10 +86,10 @@ def guide_toggle():
         print("guide deactivated")
 
 def arm_backward():
-    armmotor.spin(REVERSE)
+    motorgrouparm.spin(REVERSE)
 
 def arm_forward():
-    armmotor.spin(FORWARD)
+    motorgrouparm.spin(FORWARD)
 
 def auton_print():
     if auton == 0 or 2:
@@ -106,12 +104,7 @@ def autonomous_switcher():
         auton = 0
 
 def arm_stop():
-    armmotor.stop()
-
-    global auton
-    auton = auton + 1
-    if auton > 1:
-        auton = 0
+    motorgrouparm.stop()
  
 def pre_auton():
     global auton
@@ -140,9 +133,11 @@ def user_control():
     controller.buttonL1.released(arm_stop)
     controller.buttonR1.pressed(arm_forward)
     controller.buttonR1.released(arm_stop)
+    controller.buttonR2.pressed(stopper_open)
+    controller.buttonL2.pressed(stopper_close)
     controller.buttonY.pressed(reverse_drive)
     controller.buttonX.pressed(outake)
-    controller.buttonA.pressed(guide_toggle)
+    controller.buttonUp.pressed(guide_toggle)
     controller.buttonX.pressed(stopper)
     outake()
     # place driver control in this while loop
