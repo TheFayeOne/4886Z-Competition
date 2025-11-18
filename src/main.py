@@ -35,7 +35,6 @@ reverse = 0
 guide = 0
 auton = 0
 outake = 0
-stopper = 1
 
 def reverse_drive():
     global reverse
