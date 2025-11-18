@@ -102,6 +102,9 @@ def autonomous_switcher():
     if auton > 1:
         auton = 0
 
+def button_pass():
+    pass
+
 def arm_stop():
     motorgrouparm.stop()
  
