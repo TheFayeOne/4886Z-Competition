@@ -92,9 +92,17 @@ def arm_forward():
 
 def auton_print():
     if auton == 0 or 2:
-        brain.screen.print_at("1", x=100, y=50)
+        controller.screen.clear_screen()
+        wait(50, MSEC)
+        controller.screen.print("Auton 1")
+        wait(50, MSEC)
+        controller.screen.set_cursor(3, 1)
     if auton == 1:
-        brain.screen.print_at("2", x=100, y=50)
+        controller.screen.clear_screen()
+        wait(50, MSEC)
+        controller.screen.print("Auton 2")
+        wait(50, MSEC)
+        controller.screen.set_cursor(3, 1)
 
 def autonomous_switcher():
     global auton
@@ -112,8 +120,8 @@ def pre_auton():
     global auton
     brain.screen.clear_screen()
     brain.screen.print("Pre-Autonomous")
-    brain.screen.pressed(autonomous_switcher)
-    brain.screen.pressed(auton_print)
+    controller.buttonA.pressed(autonomous_switcher)
+    controller.buttonA.pressed(auton_print)
 
 def autonomous():
     global auton
@@ -140,7 +148,6 @@ def user_control():
     controller.buttonY.pressed(reverse_drive)
     controller.buttonX.pressed(outake)
     controller.buttonUp.pressed(guide_toggle)
-    controller.buttonX.pressed(stopper)
     outake()
     # place driver control in this while loop
     while True:
