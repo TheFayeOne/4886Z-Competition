@@ -17,9 +17,7 @@ rearleftmotor = Motor(Ports.PORT9, GearSetting.RATIO_6_1, True)
 rearrightmotor = Motor(Ports.PORT1, GearSetting.RATIO_6_1, False)
 frontleftmotor = Motor(Ports.PORT4, GearSetting.RATIO_6_1, True)
 frontrightmotor = Motor(Ports.PORT19, GearSetting.RATIO_6_1, False)
-armmotortop = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
-intakemotor = Motor(Ports.PORT3, GearSetting.RATIO_18_1, True)
-motorgrouparm = MotorGroup(armmotortop, intakemotor)
+armmotor = Motor(Ports.PORT8, GearSetting.RATIO_18_1, False)
 outakemotor = Motor(Ports.PORT6, GearSetting.RATIO_18_1, True)
 guidemotor = Motor(Ports.PORT7, GearSetting.RATIO_18_1, False)
 stoppermotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
@@ -85,10 +83,10 @@ def guide_toggle():
         print("guide deactivated")
 
 def arm_backward():
-    motorgrouparm.spin(REVERSE)
+    armmotor.spin(REVERSE)
 
 def arm_forward():
-    motorgrouparm.spin(FORWARD)
+    armmotor.spin(FORWARD)
 
 def auton_print():
     if auton == 0 or 2:
@@ -114,7 +112,7 @@ def button_pass():
     pass
 
 def arm_stop():
-    motorgrouparm.stop()
+    armmotor.stop()
  
 def pre_auton():
     global auton
