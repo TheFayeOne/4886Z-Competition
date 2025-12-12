@@ -24,8 +24,7 @@ stoppermotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
-armmotortop.set_velocity(100, PERCENT)
-intakemotor.set_velocity(100, PERCENT)
+armmotor.set_velocity(100, PERCENT)
 outakemotor.set_velocity(100, PERCENT)
 drivespeed = 0
 turn = 0
@@ -89,7 +88,7 @@ def arm_forward():
     armmotor.spin(FORWARD)
 
 def auton_print():
-    if auton == 0 or 2:
+    if auton == 0:
         controller.screen.clear_screen()
         wait(50, MSEC)
         controller.screen.print("Auton 1")
@@ -101,11 +100,17 @@ def auton_print():
         controller.screen.print("Auton 2")
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
+    if auton == 2:
+        controller.screen.clear_screen()
+        wait(50, MSEC)
+        controller.screen.print("Skills Auton")
+        wait(50, MSEC)
+        controller.screen.set_cursor(3, 1)
 
 def autonomous_switcher():
     global auton
     auton = auton + 1
-    if auton > 1:
+    if auton > 2:
         auton = 0
 
 def button_pass():
@@ -132,6 +137,8 @@ def autonomous():
         drivetrain.drive_for(FORWARD, 500, MM)
     if auton == 1:
         drivetrain.drive_for(FORWARD, 100, MM)
+    if auton == 2:
+        drivetrain.drive_for(REVERSE, 1000, MM)
 
 def user_control():
     brain.screen.clear_screen()
