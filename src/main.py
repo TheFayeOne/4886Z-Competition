@@ -91,13 +91,13 @@ def auton_print():
     if auton == 0:
         controller.screen.clear_screen()
         wait(50, MSEC)
-        controller.screen.print("Auton 1")
+        controller.screen.print("Long Auton")
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
     if auton == 1:
         controller.screen.clear_screen()
         wait(50, MSEC)
-        controller.screen.print("Auton 2")
+        controller.screen.print("Short Auton")
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
     if auton == 2:
