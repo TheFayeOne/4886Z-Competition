@@ -142,8 +142,8 @@ def autonomous():
         drivetrain.turn_for(LEFT, 37, DEGREES)
         drivetrain.drive_for(FORWARD, 460, MM, wait=False)
         wait(50, MSEC)
-        outakemotor.spin_for(REVERSE, 25000, DEGREES, 25, PERCENT, wait=False)
-        armmotor.spin_for(REVERSE, 250000, DEGREES, 20, PERCENT)
+        outakemotor.spin_for(REVERSE, 20000, DEGREES, 25, PERCENT, wait=False)
+        armmotor.spin_for(REVERSE, 200000, DEGREES, 20, PERCENT)
     if auton == 1: #Short Auton
         drivetrain.drive_for(FORWARD, 100, MM)
     if auton == 2: #Skills Auton
