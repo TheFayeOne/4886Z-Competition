@@ -91,7 +91,7 @@ def auton_print():
     if auton == 0:
         controller.screen.clear_screen()
         wait(50, MSEC)
-        controller.screen.print("Long Auton")
+        controller.screen.print("Right Auton")
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
     if auton == 1:
@@ -133,11 +133,20 @@ def autonomous():
     # place automonous code here
     drivetrain.set_drive_velocity(50, PERCENT)
     global auton
-    if auton == 0:
-        drivetrain.drive_for(FORWARD, 500, MM)
-    if auton == 1:
+    if auton == 0: #Right Auton
+        drivetrain.set_drive_velocity(25, PERCENT)
+        drivetrain.drive_for(FORWARD, 970, MM)
+        arm_forward()
+        drivetrain.drive_for(FORWARD, 620, MM, 5, PERCENT)
+        arm_stop()
+        drivetrain.turn_for(LEFT, 37, DEGREES)
+        drivetrain.drive_for(FORWARD, 460, MM, wait=False)
+        wait(50, MSEC)
+        outakemotor.spin_for(REVERSE, 25000, DEGREES, 25, PERCENT, wait=False)
+        armmotor.spin_for(REVERSE, 250000, DEGREES, 20, PERCENT)
+    if auton == 1: #Short Auton
         drivetrain.drive_for(FORWARD, 100, MM)
-    if auton == 2:
+    if auton == 2: #Skills Auton
         drivetrain.drive_for(REVERSE, 1000, MM)
 
 def user_control():
