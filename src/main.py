@@ -31,7 +31,7 @@ turn = 0
 reverse = 0
 guide = 0
 auton = 0
-outake = 0
+outakevariable = 0
 
 def reverse_drive():
     global reverse
@@ -42,14 +42,14 @@ def reverse_drive():
         reverse = 0
         print("forward")
 
-def outake():
-    global outake
-    if outake == 0:
-        outake = 1
+def outakefunction():
+    global outakevariable
+    if outakevariable == 0:
+        outakevariable = 1
         print("outaking")
         outakemotor.spin(FORWARD)
     else:
-        outake = 0
+        outakevariable = 0
         print("not outaking")
         outakemotor.stop()
 
@@ -139,7 +139,7 @@ def autonomous():
         arm_forward()
         drivetrain.drive_for(FORWARD, 620, MM, 5, PERCENT)
         arm_stop()
-        drivetrain.turn_for(LEFT, 36, DEGREES)
+        drivetrain.turn_for(LEFT, 37, DEGREES)
         drivetrain.drive_for(FORWARD, 460, MM, wait=False)
         wait(50, MSEC)
         outakemotor.spin_for(REVERSE, 20000, DEGREES, 25, PERCENT, wait=False)
@@ -160,9 +160,8 @@ def user_control():
     controller.buttonR2.pressed(stopper_open)
     controller.buttonL2.pressed(stopper_close)
     controller.buttonY.pressed(reverse_drive)
-    controller.buttonX.pressed(outake)
+    controller.buttonX.pressed(outakefunction)
     controller.buttonUp.pressed(guide_toggle)
-    outake()
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
