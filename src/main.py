@@ -26,12 +26,12 @@ motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = DriveTrain(motorgroupleft, motorgroupright)
 armmotor.set_velocity(100, PERCENT)
 outakemotor.set_velocity(100, PERCENT)
-drivespeed = 0
+driveSpeed = 0
 turn = 0
 reverse = 0
 guide = 0
 auton = 0
-outakevariable = 0
+outakeVariable = 0
 
 
 def reverse_drive():
@@ -43,11 +43,10 @@ def reverse_drive():
         reverse = 0
         print("forward")
 
-
-def outakefunction():
-    global outakevariable
-    if outakevariable == 0:
-        outakevariable = 1
+def outake_function():
+    global outakeVariable
+    if outakeVariable == 0:
+        outakeVariable = 1
         print("outaking")
         outakemotor.spin(FORWARD)
     else:
@@ -55,20 +54,17 @@ def outakefunction():
         print("not outaking")
         outakemotor.stop()
 
-
 def stopper_open():
     print("stopper opened")
     stoppermotor.spin(FORWARD)
     wait(0.4, SECONDS)
     stoppermotor.stop()
 
-
 def stopper_close():
     print("stopper closed")
     stoppermotor.spin(REVERSE)
     wait(0.4, SECONDS)
     stoppermotor.stop()
-
 
 def guide_toggle():
     global guide
@@ -86,14 +82,11 @@ def guide_toggle():
         guidemotor.stop()
         print("guide deactivated")
 
-
 def arm_backward():
     armmotor.spin(REVERSE)
 
-
 def arm_forward():
     armmotor.spin(FORWARD)
-
 
 def auton_print():
     if auton == 0:
@@ -115,21 +108,17 @@ def auton_print():
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
 
-
 def autonomous_switcher():
     global auton
     auton = auton + 1
     if auton > 2:
         auton = 0
 
-
 def button_pass():
     pass
 
-
 def arm_stop():
     armmotor.stop()
-
 
 def pre_auton():
     global auton
@@ -137,7 +126,6 @@ def pre_auton():
     brain.screen.print("Pre-Autonomous")
     controller.buttonA.pressed(autonomous_switcher)
     controller.buttonA.pressed(auton_print)
-
 
 def autonomous():
     global auton
@@ -162,7 +150,6 @@ def autonomous():
     if auton == 2:  # Skills Auton
         drivetrain.drive_for(REVERSE, 1000, MM)
 
-
 def user_control():
     brain.screen.clear_screen()
     brain.screen.print("User Control")
@@ -174,7 +161,7 @@ def user_control():
     controller.buttonR2.pressed(stopper_open)
     controller.buttonL2.pressed(stopper_close)
     controller.buttonY.pressed(reverse_drive)
-    controller.buttonX.pressed(outakefunction)
+    controller.buttonX.pressed(outake_function)
     controller.buttonUp.pressed(guide_toggle)
     # place driver control in this while loop
     while True:
@@ -183,11 +170,11 @@ def user_control():
         drivespeed = controller.axis3.position()
         turn = controller.axis1.position()
         if reverse == 0:
-            motorgroupleft.set_velocity(drivespeed + turn, PERCENT)
-            motorgroupright.set_velocity(drivespeed - turn, PERCENT)
+            motorgroupleft.set_velocity(driveSpeed + turn, PERCENT)
+            motorgroupright.set_velocity(driveSpeed - turn, PERCENT)
         if reverse == 1:
-            motorgroupleft.set_velocity(-drivespeed + turn, PERCENT)
-            motorgroupright.set_velocity(-drivespeed - turn, PERCENT)
+            motorgroupleft.set_velocity(-driveSpeed + turn, PERCENT)
+            motorgroupright.set_velocity(-driveSpeed - turn, PERCENT)
         wait(20, MSEC)
 
 
