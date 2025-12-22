@@ -33,6 +33,7 @@ guide = 0
 auton = 0
 outakevariable = 0
 
+
 def reverse_drive():
     global reverse
     if reverse == 0:
@@ -41,6 +42,7 @@ def reverse_drive():
     else:
         reverse = 0
         print("forward")
+
 
 def outakefunction():
     global outakevariable
@@ -53,17 +55,20 @@ def outakefunction():
         print("not outaking")
         outakemotor.stop()
 
+
 def stopper_open():
     print("stopper opened")
     stoppermotor.spin(FORWARD)
     wait(0.4, SECONDS)
     stoppermotor.stop()
 
+
 def stopper_close():
-   print("stopper closed")
-   stoppermotor.spin(REVERSE)
-   wait(0.4, SECONDS)
-   stoppermotor.stop() 
+    print("stopper closed")
+    stoppermotor.spin(REVERSE)
+    wait(0.4, SECONDS)
+    stoppermotor.stop()
+
 
 def guide_toggle():
     global guide
@@ -81,11 +86,14 @@ def guide_toggle():
         guidemotor.stop()
         print("guide deactivated")
 
+
 def arm_backward():
     armmotor.spin(REVERSE)
 
+
 def arm_forward():
     armmotor.spin(FORWARD)
+
 
 def auton_print():
     if auton == 0:
@@ -107,24 +115,29 @@ def auton_print():
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
 
+
 def autonomous_switcher():
     global auton
     auton = auton + 1
     if auton > 2:
         auton = 0
 
+
 def button_pass():
     pass
 
+
 def arm_stop():
     armmotor.stop()
- 
+
+
 def pre_auton():
     global auton
     brain.screen.clear_screen()
     brain.screen.print("Pre-Autonomous")
     controller.buttonA.pressed(autonomous_switcher)
     controller.buttonA.pressed(auton_print)
+
 
 def autonomous():
     global auton
@@ -133,7 +146,7 @@ def autonomous():
     # place automonous code here
     drivetrain.set_drive_velocity(50, PERCENT)
     global auton
-    if auton == 0: #Right Auton
+    if auton == 0:  # Right Auton
         drivetrain.set_drive_velocity(25, PERCENT)
         drivetrain.drive_for(FORWARD, 970, MM)
         arm_forward()
@@ -144,10 +157,11 @@ def autonomous():
         wait(50, MSEC)
         outakemotor.spin_for(REVERSE, 20000, DEGREES, 25, PERCENT, wait=False)
         armmotor.spin_for(REVERSE, 200000, DEGREES, 20, PERCENT)
-    if auton == 1: #Short Auton
+    if auton == 1:  # Short Auton
         drivetrain.drive_for(FORWARD, 100, MM)
-    if auton == 2: #Skills Auton
+    if auton == 2:  # Skills Auton
         drivetrain.drive_for(REVERSE, 1000, MM)
+
 
 def user_control():
     brain.screen.clear_screen()
@@ -175,6 +189,7 @@ def user_control():
             motorgroupleft.set_velocity(-drivespeed + turn, PERCENT)
             motorgroupright.set_velocity(-drivespeed - turn, PERCENT)
         wait(20, MSEC)
+
 
 # create competition instance
 comp = Competition(user_control, autonomous)
