@@ -43,6 +43,7 @@ def reverse_drive():
         reverse = 0
         print("forward")
 
+
 def outake_function():
     global outakeVariable
     if outakeVariable == 0:
@@ -54,11 +55,13 @@ def outake_function():
         print("not outaking")
         outakemotor.stop()
 
+
 def stopper_open():
     print("stopper opened")
     stoppermotor.spin(FORWARD)
     wait(0.4, SECONDS)
     stoppermotor.stop()
+
 
 def stopper_close():
     print("stopper closed")
@@ -66,27 +69,14 @@ def stopper_close():
     wait(0.4, SECONDS)
     stoppermotor.stop()
 
-def guide_toggle():
-    global guide
-    if guide == 0:
-        guide = 1
-        guidemotor.spin(REVERSE)
-        wait(0.55, SECONDS)
-        guidemotor.stop()
-        print("guide activated")
-
-    else:
-        guide = 0
-        guidemotor.spin(FORWARD)
-        wait(0.65, SECONDS)
-        guidemotor.stop()
-        print("guide deactivated")
 
 def arm_backward():
     armmotor.spin(REVERSE)
 
+
 def arm_forward():
     armmotor.spin(FORWARD)
+
 
 def auton_print():
     if auton == 0:
@@ -108,17 +98,17 @@ def auton_print():
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
 
+
 def autonomous_switcher():
     global auton
     auton = auton + 1
     if auton > 2:
         auton = 0
 
-def button_pass():
-    pass
 
 def arm_stop():
     armmotor.stop()
+
 
 def pre_auton():
     global auton
@@ -127,13 +117,13 @@ def pre_auton():
     controller.buttonA.pressed(autonomous_switcher)
     controller.buttonA.pressed(auton_print)
 
+
 def autonomous():
     global auton
     brain.screen.clear_screen()
     brain.screen.print("Autonomous Code")
     # place automonous code here
     drivetrain.set_drive_velocity(50, PERCENT)
-    global auton
     if auton == 0:  # Right Auton
         drivetrain.set_drive_velocity(25, PERCENT)
         drivetrain.drive_for(FORWARD, 970, MM)
@@ -150,6 +140,7 @@ def autonomous():
     if auton == 2:  # Skills Auton
         drivetrain.drive_for(REVERSE, 1000, MM)
 
+
 def user_control():
     brain.screen.clear_screen()
     brain.screen.print("User Control")
@@ -162,12 +153,11 @@ def user_control():
     controller.buttonL2.pressed(stopper_close)
     controller.buttonY.pressed(reverse_drive)
     controller.buttonX.pressed(outake_function)
-    controller.buttonUp.pressed(guide_toggle)
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
         motorgroupright.spin(FORWARD)
-        drivespeed = controller.axis3.position()
+        driveSpeed = controller.axis3.position()
         turn = controller.axis1.position()
         if reverse == 0:
             motorgroupleft.set_velocity(driveSpeed + turn, PERCENT)
