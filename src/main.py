@@ -39,9 +39,11 @@ def reverse_drive():
     if reverse == 0:
         reverse = 1
         print("reverse")
+        controller.rumble("-")
     else:
         reverse = 0
         print("forward")
+        controller.rumble("-")
 
 
 def outake_function():
@@ -50,24 +52,30 @@ def outake_function():
         outakeVariable = 1
         print("outaking")
         outakemotor.spin(FORWARD)
+        controller.rumble(".")
     else:
-        outakevariable = 0
+        outakeVariable = 0
         print("not outaking")
         outakemotor.stop()
+        controller.rumble(".")
 
 
 def stopper_open():
+    controller.rumble(".")
     print("stopper opened")
     stoppermotor.spin(FORWARD)
     wait(0.4, SECONDS)
     stoppermotor.stop()
+    controller.rumble(".")
 
 
 def stopper_close():
+    controller.rumble(".")
     print("stopper closed")
     stoppermotor.spin(REVERSE)
     wait(0.4, SECONDS)
     stoppermotor.stop()
+    controller.rumble(".")
 
 
 def arm_backward():
@@ -104,6 +112,7 @@ def autonomous_switcher():
     auton = auton + 1
     if auton > 2:
         auton = 0
+    controller.rumble("-")
 
 
 def arm_stop():
@@ -175,3 +184,4 @@ comp = Competition(user_control, autonomous)
 brain.screen.clear_screen()
 pre_auton()
 auton_print()
+controller.rumble("-")
