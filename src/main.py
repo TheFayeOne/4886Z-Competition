@@ -13,6 +13,7 @@ from vex import *
 
 brain = Brain()
 controller = Controller(PRIMARY)
+inertial = Inertial(Ports.PORT21)
 rearleftmotor = Motor(Ports.PORT9, GearSetting.RATIO_6_1, True)
 rearrightmotor = Motor(Ports.PORT1, GearSetting.RATIO_6_1, False)
 frontleftmotor = Motor(Ports.PORT4, GearSetting.RATIO_6_1, True)
@@ -23,7 +24,7 @@ guidemotor = Motor(Ports.PORT7, GearSetting.RATIO_18_1, False)
 stoppermotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
-drivetrain = DriveTrain(motorgroupleft, motorgroupright)
+drivetrain = SmartDrive(motorgroupleft, motorgroupright, inertial, 260, 305, 255, MM)
 armmotor.set_velocity(100, PERCENT)
 outakemotor.set_velocity(100, PERCENT)
 driveSpeed = 0
@@ -96,23 +97,29 @@ def auton_print():
     if auton == 1:
         controller.screen.clear_screen()
         wait(50, MSEC)
-        controller.screen.print("Short Auton")
+        controller.screen.print("Left Auton")
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
     if auton == 2:
         controller.screen.clear_screen()
         wait(50, MSEC)
+        controller.screen.print("Short Auton")
+        wait(50, MSEC)
+        controller.screen.set_cursor(3, 1)
+    if auton == 3:
+        controller.screen.clear_screen()
+        wait(50, MSEC)
         controller.screen.print("Skills Auton")
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
+    controller.rumble("-")
 
 
 def autonomous_switcher():
     global auton
     auton = auton + 1
-    if auton > 2:
+    if auton > 3:
         auton = 0
-    controller.rumble("-")
 
 
 def arm_stop():
@@ -125,7 +132,7 @@ def pre_auton():
     brain.screen.print("Pre-Autonomous")
     controller.buttonA.pressed(autonomous_switcher)
     controller.buttonA.pressed(auton_print)
-
+    inertial.calibrate()
 
 def autonomous():
     global auton
@@ -135,18 +142,24 @@ def autonomous():
     drivetrain.set_drive_velocity(50, PERCENT)
     if auton == 0:  # Right Auton
         drivetrain.set_drive_velocity(25, PERCENT)
-        drivetrain.drive_for(FORWARD, 970, MM)
+        drivetrain.drive_for(FORWARD, 880, MM)
         arm_forward()
-        drivetrain.drive_for(FORWARD, 620, MM, 5, PERCENT)
+        drivetrain.drive_for(FORWARD, 600, MM, 5, PERCENT)
         arm_stop()
-        drivetrain.turn_for(LEFT, 37, DEGREES)
-        drivetrain.drive_for(FORWARD, 460, MM, wait=False)
+        drivetrain.turn_to_heading(-54, DEGREES)
+        drivetrain.drive_for(FORWARD, 345, MM, wait=False)
         wait(50, MSEC)
-        outakemotor.spin_for(REVERSE, 20000, DEGREES, 25, PERCENT, wait=False)
-        armmotor.spin_for(REVERSE, 200000, DEGREES, 20, PERCENT)
-    if auton == 1:  # Short Auton
+        outakemotor.spin_for(REVERSE, 2500, DEGREES, 25, PERCENT, wait=False)
+        armmotor.spin_for(REVERSE, 2500, DEGREES, 22, PERCENT, wait=False)
+    if auton == 1: #Left Auton
+        drivetrain.set_drive_velocity(25, PERCENT)
+        drivetrain.drive_for(REVERSE, 1300, MM)
+        drivetrain.turn_to_heading(45, DEGREES)
+        drivetrain.drive_for(REVERSE, 200, MM)
+        #score with outake
+    if auton == 2:  # Short Auton
         drivetrain.drive_for(FORWARD, 100, MM)
-    if auton == 2:  # Skills Auton
+    if auton == 3:  # Skills Auton
         drivetrain.drive_for(REVERSE, 1000, MM)
 
 
@@ -154,6 +167,7 @@ def user_control():
     brain.screen.clear_screen()
     brain.screen.print("User Control")
     drivetrain.set_drive_velocity(0, PERCENT)
+    global auton
     controller.buttonL1.pressed(arm_backward)
     controller.buttonL1.released(arm_stop)
     controller.buttonR1.pressed(arm_forward)
@@ -161,7 +175,11 @@ def user_control():
     controller.buttonR2.pressed(stopper_open)
     controller.buttonL2.pressed(stopper_close)
     controller.buttonY.pressed(reverse_drive)
-    controller.buttonX.pressed(outake_function)
+    controller.buttonB.pressed(outake_function)
+    if auton == 0:
+        outakemotor.stop()
+    if auton == 1:
+        stopper_close()
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
