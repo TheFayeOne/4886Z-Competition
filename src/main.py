@@ -153,10 +153,11 @@ def autonomous():
         armmotor.spin_for(REVERSE, 2500, DEGREES, 22, PERCENT, wait=False)
     if auton == 1: #Left Auton
         drivetrain.set_drive_velocity(25, PERCENT)
-        drivetrain.drive_for(REVERSE, 1300, MM)
-        drivetrain.turn_to_heading(45, DEGREES)
-        drivetrain.drive_for(REVERSE, 200, MM)
-        #score with outake
+        drivetrain.drive_for(REVERSE, 1200, MM)
+        drivetrain.turn_to_heading(48, DEGREES)
+        drivetrain.drive_for(REVERSE, 240, MM)
+        arm_forward()
+        outakemotor.spin_for(FORWARD, 2500, DEGREES, 100, PERCENT)
     if auton == 2:  # Short Auton
         drivetrain.drive_for(FORWARD, 100, MM)
     if auton == 3:  # Skills Auton
@@ -180,6 +181,7 @@ def user_control():
         outakemotor.stop()
     if auton == 1:
         stopper_close()
+        arm_stop()
     # place driver control in this while loop
     while True:
         motorgroupleft.spin(FORWARD)
