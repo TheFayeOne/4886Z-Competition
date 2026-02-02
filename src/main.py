@@ -154,10 +154,10 @@ def autonomous():
     if auton == 1: #Left Auton
         drivetrain.set_drive_velocity(25, PERCENT)
         drivetrain.drive_for(REVERSE, 1200, MM)
-        drivetrain.turn_to_heading(48, DEGREES)
-        drivetrain.drive_for(REVERSE, 240, MM)
+        drivetrain.turn_to_heading(52, DEGREES)
+        drivetrain.drive_for(REVERSE, 260, MM)
         arm_forward()
-        outakemotor.spin_for(FORWARD, 2500, DEGREES, 100, PERCENT)
+        outakemotor.spin_for(FORWARD, 5000, DEGREES, 100, PERCENT)
     if auton == 2:  # Short Auton
         drivetrain.drive_for(FORWARD, 100, MM)
     if auton == 3:  # Skills Auton
