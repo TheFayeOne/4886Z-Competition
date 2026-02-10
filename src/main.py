@@ -35,59 +35,12 @@ guide = 0
 auton = 1
 outakeVariable = 0
 descorerVariable = 0
- 
 
-def reverse_drive():
-    global reverse
-    if reverse == 0:
-        reverse = 1
-        print("reverse")
-        controller.rumble("-")
-    else:
-        reverse = 0
-        print("forward")
-        controller.rumble("-")
-
-
-def outake_function():
-    global outakeVariable
-    if outakeVariable == 0:
-        outakeVariable = 1
-        print("outaking")
-        outakemotor.spin(FORWARD)
-        controller.rumble(".")
-    else:
-        outakeVariable = 0
-        print("not outaking")
-        outakemotor.stop()
-        controller.rumble(".")
-
-
-def stopper_open():
-    controller.rumble(".")
-    print("stopper opened")
-    stoppermotor.spin(FORWARD)
-    wait(0.25, SECONDS)
-    stoppermotor.stop()
-    controller.rumble(".")
-
-
-def stopper_close():
-    controller.rumble(".")
-    print("stopper closed")
-    stoppermotor.spin(REVERSE)
-    wait(0.4, SECONDS)
-    stoppermotor.stop()
-    controller.rumble(".")
-
-
-def arm_backward():
-    armmotor.spin(REVERSE)
-
-
-def arm_forward():
-    armmotor.spin(FORWARD)
-
+def autonomous_switcher():
+    global auton
+    auton = auton + 1
+    if auton > 3:
+        auton = 0
 
 def auton_print():
     if auton == 0:
@@ -116,29 +69,6 @@ def auton_print():
         controller.screen.set_cursor(3, 1)
     controller.rumble("-")
 
-def descorer_function():
-    global descorerVariable
-    if descorerVariable == 0:
-        descorerpiston.open()
-        descorerVariable = 1
-        print("descorer opened")
-    else:
-        descorerpiston.close()
-        descorerVariable = 0
-        print("descorer closed")
-
-
-def autonomous_switcher():
-    global auton
-    auton = auton + 1
-    if auton > 3:
-        auton = 0
-
-
-def arm_stop():
-    armmotor.stop()
-
-
 def pre_auton():
     global auton
     brain.screen.clear_screen()
@@ -146,6 +76,15 @@ def pre_auton():
     controller.buttonA.pressed(autonomous_switcher)
     controller.buttonA.pressed(auton_print)
     inertial.calibrate()
+
+def arm_forward():
+    armmotor.spin(FORWARD)
+
+def arm_backward():
+    armmotor.spin(REVERSE)
+
+def arm_stop():
+    armmotor.stop()
 
 def autonomous():
     global auton
@@ -176,6 +115,56 @@ def autonomous():
     if auton == 3:  # Skills Auton
         drivetrain.drive_for(REVERSE, 1000, MM)
 
+def stopper_open():
+    controller.rumble(".")
+    print("stopper opened")
+    stoppermotor.spin(FORWARD)
+    wait(0.3, SECONDS)
+    stoppermotor.stop()
+    controller.rumble(".")
+
+def stopper_close():
+    controller.rumble(".")
+    print("stopper closed")
+    stoppermotor.spin(REVERSE)
+    wait(0.4, SECONDS)
+    stoppermotor.stop()
+    controller.rumble(".")
+
+def outake_function():
+    global outakeVariable
+    if outakeVariable == 0:
+        outakeVariable = 1
+        print("outaking")
+        outakemotor.spin(FORWARD)
+        controller.rumble(".")
+    else:
+        outakeVariable = 0
+        print("not outaking")
+        outakemotor.stop()
+        controller.rumble(".")
+
+def descorer_function():
+    global descorerVariable
+    if descorerVariable == 0:
+        descorerpiston.open()
+        descorerVariable = 1
+        print("descorer opened")
+    else:
+        descorerpiston.close()
+        descorerVariable = 0
+        print("descorer closed")
+
+def reverse_drive():
+    global reverse
+    if reverse == 0:
+        reverse = 1
+        print("reverse")
+        controller.rumble("-")
+    else:
+        reverse = 0
+        print("forward")
+        controller.rumble("-")
 
 def user_control():
     brain.screen.clear_screen()
@@ -209,7 +198,6 @@ def user_control():
             motorgroupleft.set_velocity(-driveSpeed + turn, PERCENT)
             motorgroupright.set_velocity(-driveSpeed - turn, PERCENT)
         wait(20, MSEC)
-
 
 # create competition instance
 comp = Competition(user_control, autonomous)
