@@ -25,6 +25,7 @@ stoppermotor = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
 motorgroupleft = MotorGroup(rearleftmotor, frontleftmotor)
 motorgroupright = MotorGroup(rearrightmotor, frontrightmotor)
 drivetrain = SmartDrive(motorgroupleft, motorgroupright, inertial, 260, 305, 255, MM)
+descorerpiston = Pneumatics(brain.three_wire_port.a)
 armmotor.set_velocity(100, PERCENT)
 outakemotor.set_velocity(100, PERCENT)
 driveSpeed = 0
@@ -33,7 +34,8 @@ reverse = 0
 guide = 0
 auton = 1
 outakeVariable = 0
-
+descorerVariable = 0
+ 
 
 def reverse_drive():
     global reverse
@@ -65,7 +67,7 @@ def stopper_open():
     controller.rumble(".")
     print("stopper opened")
     stoppermotor.spin(FORWARD)
-    wait(0.4, SECONDS)
+    wait(0.25, SECONDS)
     stoppermotor.stop()
     controller.rumble(".")
 
@@ -113,6 +115,17 @@ def auton_print():
         wait(50, MSEC)
         controller.screen.set_cursor(3, 1)
     controller.rumble("-")
+
+def descorer_function():
+    global descorerVariable
+    if descorerVariable == 0:
+        descorerpiston.open()
+        descorerVariable = 1
+        print("descorer opened")
+    else:
+        descorerpiston.close()
+        descorerVariable = 0
+        print("descorer closed")
 
 
 def autonomous_switcher():
@@ -175,8 +188,9 @@ def user_control():
     controller.buttonR1.released(arm_stop)
     controller.buttonR2.pressed(stopper_open)
     controller.buttonL2.pressed(stopper_close)
-    controller.buttonY.pressed(reverse_drive)
+    controller.buttonUp.pressed(reverse_drive)
     controller.buttonB.pressed(outake_function)
+    controller.buttonX.pressed(descorer_function)
     if auton == 0:
         outakemotor.stop()
     if auton == 1:
