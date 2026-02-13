@@ -32,7 +32,7 @@ driveSpeed = 0
 turn = 0
 reverse = 0
 guide = 0
-auton = 1
+auton = 0
 outakeVariable = 0
 descorerVariable = 0
 
@@ -94,15 +94,16 @@ def autonomous():
     drivetrain.set_drive_velocity(50, PERCENT)
     if auton == 0:  # Right Auton
         drivetrain.set_drive_velocity(25, PERCENT)
-        drivetrain.drive_for(FORWARD, 880, MM)
+        drivetrain.drive_for(FORWARD, 850, MM)
         arm_forward()
         drivetrain.drive_for(FORWARD, 645, MM, 5, PERCENT)
         arm_stop()
-        drivetrain.turn_to_heading(-51.3, DEGREES)
-        drivetrain.drive_for(FORWARD, 370, MM, wait=False)
+        drivetrain.turn_to_heading(-52, DEGREES)
+        drivetrain.drive_for(FORWARD, 350, MM, wait=True)
+        drivetrain.drive_for(REVERSE, 100, MM, wait=False)
         wait(50, MSEC)
         outakemotor.spin_for(REVERSE, 2500, DEGREES, 25, PERCENT, wait=False)
-        armmotor.spin_for(REVERSE, 2500, DEGREES, 22, PERCENT, wait=False)
+        armmotor.spin_for(REVERSE, 2500, DEGREES, 23, PERCENT, wait=False)
     if auton == 1: #Left Auton
         drivetrain.set_drive_velocity(25, PERCENT)
         drivetrain.drive_for(REVERSE, 1200, MM)
