@@ -100,7 +100,7 @@ def autonomous():
         arm_stop()
         drivetrain.turn_to_heading(-52, DEGREES)
         drivetrain.drive_for(FORWARD, 350, MM, wait=True)
-        drivetrain.drive_for(REVERSE, 100, MM, wait=False)
+        drivetrain.drive_for(REVERSE, 100, MM, wait=True)
         wait(50, MSEC)
         outakemotor.spin_for(REVERSE, 2500, DEGREES, 25, PERCENT, wait=False)
         armmotor.spin_for(REVERSE, 2500, DEGREES, 23, PERCENT, wait=False)
