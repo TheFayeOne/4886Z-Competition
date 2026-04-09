@@ -36,58 +36,13 @@ auton = 0
 outakeVariable = 0
 descorerVariable = 0
 
-<<<<<<< HEAD
 
-def reverse_drive():
-    global reverse
-    if reverse == 0:
-        reverse = 1
-        print("reverse")
-    else:
-        reverse = 0
-        print("forward")
-
-
-def outake_function():
-    global outakeVariable
-    if outakeVariable == 0:
-        outakeVariable = 1
-        print("outaking")
-        outakemotor.spin(FORWARD)
-    else:
-        outakeVariable = 0
-        print("not outaking")
-        outakemotor.stop()
-
-
-def stopper_open():
-    print("stopper opened")
-    stoppermotor.spin(FORWARD)
-    wait(0.4, SECONDS)
-    stoppermotor.stop()
-
-
-def stopper_close():
-    print("stopper closed")
-    stoppermotor.spin(REVERSE)
-    wait(0.4, SECONDS)
-    stoppermotor.stop()
-
-
-def arm_backward():
-    armmotor.spin(REVERSE)
-
-
-def arm_forward():
-    armmotor.spin(FORWARD)
-
-=======
 def autonomous_switcher():
     global auton
     auton = auton + 1
     if auton > 3:
         auton = 0
->>>>>>> c12d762ddc9e0be1a8cf98c415ecea06f8b71f7f
+
 
 def auton_print():
     if auton == 0:
@@ -116,6 +71,7 @@ def auton_print():
         controller.screen.set_cursor(3, 1)
     controller.rumble("-")
 
+
 def pre_auton():
     global auton
     brain.screen.clear_screen()
@@ -124,14 +80,18 @@ def pre_auton():
     controller.buttonA.pressed(auton_print)
     inertial.calibrate()
 
+
 def arm_forward():
     armmotor.spin(FORWARD)
+
 
 def arm_backward():
     armmotor.spin(REVERSE)
 
+
 def arm_stop():
     armmotor.stop()
+
 
 def autonomous():
     global auton
@@ -151,7 +111,7 @@ def autonomous():
         wait(50, MSEC)
         outakemotor.spin_for(REVERSE, 2500, DEGREES, 25, PERCENT, wait=False)
         armmotor.spin_for(REVERSE, 2500, DEGREES, 23, PERCENT, wait=False)
-    if auton == 1: #Left Auton
+    if auton == 1:  # Left Auton
         drivetrain.set_drive_velocity(25, PERCENT)
         drivetrain.drive_for(REVERSE, 1200, MM)
         drivetrain.turn_to_heading(54, DEGREES)
@@ -163,6 +123,7 @@ def autonomous():
     if auton == 3:  # Skills Auton
         drivetrain.drive_for(REVERSE, 1000, MM)
 
+
 def stopper_open():
     controller.rumble(".")
     print("stopper opened")
@@ -171,6 +132,7 @@ def stopper_open():
     stoppermotor.stop()
     controller.rumble(".")
 
+
 def stopper_close():
     controller.rumble(".")
     print("stopper closed")
@@ -178,6 +140,7 @@ def stopper_close():
     wait(0.4, SECONDS)
     stoppermotor.stop()
     controller.rumble(".")
+
 
 def outake_function():
     global outakeVariable
@@ -192,6 +155,7 @@ def outake_function():
         outakemotor.stop()
         controller.rumble(".")
 
+
 def descorer_function():
     global descorerVariable
     if descorerVariable == 0:
@@ -203,6 +167,7 @@ def descorer_function():
         descorerVariable = 0
         print("descorer closed")
 
+
 def reverse_drive():
     global reverse
     if reverse == 0:
@@ -213,6 +178,7 @@ def reverse_drive():
         reverse = 0
         print("forward")
         controller.rumble("-")
+
 
 def user_control():
     brain.screen.clear_screen()
@@ -246,6 +212,7 @@ def user_control():
             motorgroupleft.set_velocity(-driveSpeed + turn, PERCENT)
             motorgroupright.set_velocity(-driveSpeed - turn, PERCENT)
         wait(20, MSEC)
+
 
 # create competition instance
 comp = Competition(user_control, autonomous)
