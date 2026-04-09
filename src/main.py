@@ -51,7 +51,7 @@ def outake_function():
         print("outaking")
         outakemotor.spin(FORWARD)
     else:
-        outakevariable = 0
+        outakeVariable = 0
         print("not outaking")
         outakemotor.stop()
 
