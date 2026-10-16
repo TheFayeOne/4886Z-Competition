@@ -185,6 +185,7 @@ def user_control():
     brain.screen.print("User Control")
     drivetrain.set_drive_velocity(0, PERCENT)
     global auton
+    global reverse
     controller.buttonL1.pressed(arm_backward)
     controller.buttonL1.released(arm_stop)
     controller.buttonR1.pressed(arm_forward)
